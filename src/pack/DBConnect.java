@@ -4,8 +4,9 @@ import java.sql.*;
 
 public class DBConnect {
 	private Connection con; //connect to MySQL DB
-	private Statement st;  // query
+	private Statement st;  // query after records are created
 	private ResultSet rs; // hold results
+	private PreparedStatement ps; // action before records are created
 	
 	public DBConnect() {
 		try {
@@ -22,15 +23,23 @@ public class DBConnect {
 		try {
 			String query = "CREATE TABLE IF NOT EXISTS tablename (id int NOT Null AUTO_INCREMENT, first VARCHAR(20) NOT NULL, last VARCHAR(20) NOT NULL, PRIMARY KEY (id))";
 			query = query.replace("tablename",tname);    // replace with user-defined table name
-			System.out.println(query); 
-			PreparedStatement create = con.prepareStatement(query);
-			create.executeUpdate();
+			ps = con.prepareStatement(query);
+			ps.executeUpdate();
 		}
 		catch(Exception e) {
 			System.out.println(e);
 		}
-		finally {
-			System.out.println("newtable1 was created");
+	}
+	
+	public void insertRecord(String tname) {
+		try{
+			String query = "insert into tablename values (null, 'Jaky','Chen'),(null,'Mike','Johnson'),(null, 'Jenny', 'Lopez')";
+			query = query.replace("tablename", tname);
+			ps = con.prepareStatement(query);
+			ps.executeUpdate();
+		}
+		catch (Exception e) {
+			System.out.println(e);
 		}
 	}
 	
