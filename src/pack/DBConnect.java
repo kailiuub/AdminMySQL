@@ -18,6 +18,22 @@ public class DBConnect {
 		}
 	}
 	
+	public void createTable(String tname) {
+		try {
+			String query = "CREATE TABLE IF NOT EXISTS tablename (id int NOT Null AUTO_INCREMENT, first VARCHAR(20) NOT NULL, last VARCHAR(20) NOT NULL, PRIMARY KEY (id))";
+			query = query.replace("tablename",tname);    // replace with user-defined table name
+			System.out.println(query); 
+			PreparedStatement create = con.prepareStatement(query);
+			create.executeUpdate();
+		}
+		catch(Exception e) {
+			System.out.println(e);
+		}
+		finally {
+			System.out.println("newtable1 was created");
+		}
+	}
+	
 	public void getData() {
 		try {
 			String query = "select * from newtable";
